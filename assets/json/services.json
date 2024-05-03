@@ -1,0 +1,114 @@
+{
+  "services": [
+    {
+      "serviceUuid":"F26013B4-6B6E-459E-AC80-D04CD6ED682D",
+      "name":"IOTFV Provisioning Services",
+      "displayName":"Device Information",
+      "characteristics":
+      [
+        {
+          "characteristicUuid":"F2601743-6B6E-459E-AC80-D04CD6ED682D",
+          "name":"Advertising Name"
+        },
+        {
+          "characteristicUuid":"F2601744-6B6E-459E-AC80-D04CD6ED682D",
+          "name":"SKU Number"
+        },
+        {
+          "characteristicUuid":"F2601757-6B6E-459E-AC80-D04CD6ED682D",
+          "name":"Date of SKU Config"
+        },
+        {
+          "characteristicUuid":"F2601725-6B6E-459E-AC80-D04CD6ED682D",
+          "name":"MCU Firmware Version"
+        },
+        {
+          "characteristicUuid":"F2601726-6B6E-459E-AC80-D04CD6ED682D",
+          "name":"BLE Firmware Version"
+        },
+        {
+          "characteristicUuid":"F2601758-6B6E-459E-AC80-D04CD6ED682D",
+          "name":"Date of Production"
+        }
+
+      ]
+    },
+    {
+      "serviceUuid":"89D18878-9C8D-4A64-A23D-62CD1C656FE8",
+      "name":"IOTFV Metric Info",
+      "displayName":"Monitoring Parameters",
+      "characteristics":
+      [
+        {
+          "characteristicUuid":"89D11736-9C8D-4A64-A23D-62CD1C656FE8",
+          "name":"Battery Status"
+        },
+        {
+          "characteristicUuid":"89D11732-9C8D-4A64-A23D-62CD1C656FE8",
+          "name":"Flush Count"
+        },
+        {
+          "characteristicUuid":"89D11733-9C8D-4A64-A23D-62CD1C656FE8",
+          "name":"Low Flush Count"
+        }
+
+      ]
+    },
+
+    {
+      "serviceUuid":"220F02DC-30E3-4403-A148-2C213D974FE3",
+      "name":"IOTFV Services",
+      "displayName":"Basic Parameters",
+      "characteristics":
+      [
+        {
+          "characteristicUuid":"220F1727-30E3-4403-A148-2C213D974FE3",
+          "name":"Dual Flush"
+        },
+        {
+          "characteristicUuid":"220F1728-30E3-4403-A148-2C213D974FE3",
+          "name":"Dual Flush Time Threshold"
+        },
+        {
+          "characteristicUuid":"220F1730-30E3-4403-A148-2C213D974FE3",
+          "name":"Sentinel Flush"
+        },
+        {
+          "characteristicUuid":"220F1731-30E3-4403-A148-2C213D974FE3",
+          "name":"Sentinel Flush Interval"
+        }
+
+      ]
+    },
+
+    {
+      "serviceUuid":"E729C847-7E6F-4D01-A615-37052E141A23",
+      "name":"IOTFV TOF Services",
+      "displayName":"Advanced Parameters",
+      "characteristics":
+      [
+        {
+          "characteristicUuid":"E7291738-7E6F-4D01-A615-37052E141A23",
+          "name":"Sensor Distance"
+        },
+        {
+          "characteristicUuid":" E7291755-7E6F-4D01-A615-37052E141A23",
+          "name":"Flush Delay Out Time"
+        },
+        {
+          "characteristicUuid":"E7291752-7E6F-4D01-A615-37052E141A23",
+          "name":"Sensor Idle Inter-measurement Timing"
+        },
+        {
+          "characteristicUuid":"E7291753-7E6F-4D01-A615-37052E141A23",
+          "name":"Sensor Latch Inter-measurement Timing"
+        },
+        {
+          "characteristicUuid":"E7291754-7E6F-4D01-A615-37052E141A23",
+          "name":"Arming Delay In Time"
+        }
+
+      ]
+    }
+  ]
+}
