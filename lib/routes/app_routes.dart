@@ -14,7 +14,7 @@ import '../screens/splash_screen.dart';
 class AppRoute{
   static const String splashscreen= '/splash';
   static const String homescreen= '/home';
-  static const String devicedetailscreen= '/devicedetail';
+  ///static const String devicedetailscreen= '/devicedetail';
   static const String settingscreen = '/setting';
   static const String helpscreen = '/help';
   static const String profilescreen = '/profile';

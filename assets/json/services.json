@@ -92,16 +92,16 @@
           "name":"Sensor Distance"
         },
         {
-          "characteristicUuid":" E7291755-7E6F-4D01-A615-37052E141A23",
+          "characteristicUuid":"E7291755-7E6F-4D01-A615-37052E141A23",
           "name":"Flush Delay Out Time"
         },
         {
           "characteristicUuid":"E7291752-7E6F-4D01-A615-37052E141A23",
-          "name":"Sensor Idle Inter-measurement Timing"
+          "name":"Sensor Idle Timing"
         },
         {
           "characteristicUuid":"E7291753-7E6F-4D01-A615-37052E141A23",
-          "name":"Sensor Latch Inter-measurement Timing"
+          "name":"Sensor Latch Timing"
         },
         {
           "characteristicUuid":"E7291754-7E6F-4D01-A615-37052E141A23",

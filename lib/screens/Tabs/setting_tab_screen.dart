@@ -10,11 +10,8 @@ import '../Dialogs/radio_dialog_screen.dart';
 import '../Dialogs/savetopresets_dialog_screen.dart';
 
 class SettingTabScreen extends StatefulWidget {
-  const SettingTabScreen({super.key,required this.basicservice,required this.advancedservice,required this.selectedbasicservice,required this.selectedadvancedservice});
-  final BluetoothService basicservice;
-  final BluetoothService advancedservice;
-  final ServiceModel selectedbasicservice;
-  final ServiceModel selectedadvancedservice;
+  const SettingTabScreen(
+      {super.key});
 
 
 
@@ -24,50 +21,23 @@ class SettingTabScreen extends StatefulWidget {
 
 class _SettingTabScreenState extends State<SettingTabScreen> {
 
-  List<Map<String, dynamic>>  BasicParameters=[
-    {
-      "name":"Dual Flush",
-      "value":"Enabled",
-    },
-    {
-      "name":"Dual Flush Time Threshold",
-      "value":"60000 ms"
-    },
-    {
-      "name":"Sential Flush",
-      "value":"Disabled"
-    },
-    {
-      "name":"Sensor Distance",
-      "value":"24 inch"
-    },
-    {
-      "name":"Flush Delay Out Time",
-      "value":"500ms"
-    }
 
+  List<Map<String, dynamic>> BasicParameters = [
+    {
+      "name": "Dual Flush",
+      "value": "Enabled",
+    },
+    {"name": "Dual Flush Time Threshold", "value": "60000 ms"},
+    {"name": "Sential Flush", "value": "Disabled"},
+    {"name": "Sensor Distance", "value": "24 inch"},
+    {"name": "Flush Delay Out Time", "value": "500ms"}
   ];
 
-
-  List<Map<String, dynamic>>  AdvanceParameters=[
-    {
-      "name":"Sentinal Flush Interval",
-      "value":"24 hrs"
-    },
-    {
-      "name":"Sensor Idel Measurement",
-      "value":"7000 ms"
-    },
-    {
-      "name":"Sensor Latch Measurement",
-      "value":"6000 ms"
-    },
-    {
-      "name":"Arming Delay In Time",
-      "value":"1800 ms"
-    },
-
-
+  List<Map<String, dynamic>> AdvanceParameters = [
+    {"name": "Sentinal Flush Interval", "value": "24 hrs"},
+    {"name": "Sensor Idel Measurement", "value": "7000 ms"},
+    {"name": "Sensor Latch Measurement", "value": "6000 ms"},
+    {"name": "Arming Delay In Time", "value": "1800 ms"},
   ];
 
   bool isChecked = false;
@@ -76,9 +46,7 @@ class _SettingTabScreenState extends State<SettingTabScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -112,10 +80,10 @@ class _SettingTabScreenState extends State<SettingTabScreen> {
                           activeColor: HexColor("#039597"),
                           value: isChecked,
                           onChanged: (bool? value){
-                        setState(() {
-                          isChecked = value!;
-                        });
-                      })
+                            setState(() {
+                              isChecked = value!;
+                            });
+                          })
                     ],
                   ),
 
@@ -156,25 +124,7 @@ class _SettingTabScreenState extends State<SettingTabScreen> {
                           children: [
                             TextButton(
                               onPressed: (){
-                                  showModalBottomSheet(
-
-                                      context: context,
-                                      builder: (_) {
-
-                                         if(BasicParameters[index]["name"] == "Dual Flush" || BasicParameters[index]["name"] == "Sential Flush") {
-                                           return RadioDialogBottomSheet(
-                                             name: BasicParameters[index]["name"],
-                                             value: BasicParameters[index]["value"],);
-                                         }
-                                         else
-                                           {
-                                             return IncOrDecDialogBottomSheet(
-                                               name: BasicParameters[index]["name"],
-                                               value: BasicParameters[index]["value"],);
-                                           }
-                                      }
-                                  );
-                              },
+                                                              },
                               child: Text(BasicParameters[index]["value"]),
                               style: TextButton.styleFrom(foregroundColor:Color(0xff039597) ),),
                             Icon(Icons.arrow_forward_ios_outlined,color: Colors.white, size: 16,),
@@ -235,24 +185,7 @@ class _SettingTabScreenState extends State<SettingTabScreen> {
                             children: [
                               TextButton(
                                 onPressed: (){
-                                  showModalBottomSheet(
 
-                                      context: context,
-                                      builder: (_) {
-
-                                        if(AdvanceParameters[index]["name"] == "Sentinal Flush Interval") {
-                                          return HoursDialogBottonSheet(
-                                            name: AdvanceParameters[index]["name"],
-                                            value: AdvanceParameters[index]["value"],);
-                                        }
-                                        else
-                                        {
-                                          return IncOrDecDialogBottomSheet(
-                                            name: AdvanceParameters[index]["name"],
-                                            value: AdvanceParameters[index]["value"],);
-                                        }
-                                      }
-                                  );
                                 },
                                 child: Text(AdvanceParameters[index]["value"]),
                                 style: TextButton.styleFrom(foregroundColor:Color(0xff039597) ),),
@@ -274,68 +207,82 @@ class _SettingTabScreenState extends State<SettingTabScreen> {
   }
 }
 
-Container BuildBottomNavBar(BuildContext context)
-{
+Container BuildBottomNavBar(BuildContext context) {
   return Container(
     height: 200,
     child: Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 11,vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
           child: SizedBox(
             width: double.infinity,
             height: 50,
-
             child: ElevatedButton(
-                onPressed: (){
+                onPressed: () {
                   showDialog(
                       barrierDismissible: false,
                       context: context,
-                      builder: (_){
-                    return AlertDialog(
-                       title: Center(child: Text("Resttings to defaults removes all of your custome settings.Do you really want to reset to factory defaults")),
-                       titleTextStyle: Theme.of(context).textTheme.displayMedium,
-                       backgroundColor: HexColor("#424550"),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(11),
-                      ),
-                      actions: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: Container(
-                            decoration:BoxDecoration(
-                                border: Border(
-                                    top: BorderSide(width: 0.8,color: Colors.black)
-                                )
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration:BoxDecoration(
-                                        border: Border(
-                                            right: BorderSide(width: 0.8,color: Colors.black)
-                                        )
-                                    ),
-                                    child: TextButton(onPressed: (){
-                                      Navigator.pop(context);
-                                    }, child: Text("Cancel", style: TextStyle(color: Colors.white70,fontSize:19 ),),),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: TextButton(onPressed: (){
-                                    Navigator.pop(context);
-                                  }, child: Text("Yes",style: TextStyle(color: HexColor("#039597"),fontSize:19 ),),),
-                                ),
-                              ],
-                            ),
+                      builder: (_) {
+                        return AlertDialog(
+                          title: Center(
+                              child: Text(
+                                  "Resttings to defaults removes all of your custome settings.Do you really want to reset to factory defaults")),
+                          titleTextStyle:
+                              Theme.of(context).textTheme.displayMedium,
+                          backgroundColor: HexColor("#424550"),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(11),
                           ),
-
-                        )
-                      ],
-                    );
-                  });
-
+                          actions: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    border: Border(
+                                        top: BorderSide(
+                                            width: 0.8, color: Colors.black))),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                                right: BorderSide(
+                                                    width: 0.8,
+                                                    color: Colors.black))),
+                                        child: TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "Cancel",
+                                            style: TextStyle(
+                                                color: Colors.white70,
+                                                fontSize: 19),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "Yes",
+                                          style: TextStyle(
+                                              color: HexColor("#039597"),
+                                              fontSize: 19),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        );
+                      });
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -348,16 +295,16 @@ Container BuildBottomNavBar(BuildContext context)
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 11,vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
           child: SizedBox(
             width: double.infinity,
             height: 50,
-
             child: ElevatedButton(
-                onPressed: (){
-                  showModalBottomSheet(context: context,
-                      builder: (_){
-                           return SaveToPresetDialogScreen();
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (_) {
+                        return SaveToPresetDialogScreen();
                       });
                 },
                 style: ElevatedButton.styleFrom(
@@ -371,18 +318,17 @@ Container BuildBottomNavBar(BuildContext context)
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 11,vertical: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
           child: SizedBox(
             width: double.infinity,
             height: 50,
-
             child: ElevatedButton(
-                onPressed: (){
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (_){
-                          return CopyFromPresetDialogScreen();
-                        });
+                onPressed: () {
+                  showModalBottomSheet(
+                      context: context,
+                      builder: (_) {
+                        return CopyFromPresetDialogScreen();
+                      });
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
@@ -398,6 +344,3 @@ Container BuildBottomNavBar(BuildContext context)
     ),
   );
 }
-
-
-

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../../Colors/Hex_Color.dart';
 
 class IncOrDecDialogBottomSheet extends StatefulWidget {
-  String? name;
-  String? value;
-   IncOrDecDialogBottomSheet({super.key,this.name,this.value});
+  BluetoothCharacteristic characteristics;
+  String value;
+   IncOrDecDialogBottomSheet({super.key, required this.characteristics, required this.value});
 
   @override
   State<IncOrDecDialogBottomSheet> createState() => _IncOrDecDialogBottomSheetState();
@@ -31,11 +32,11 @@ class _IncOrDecDialogBottomSheetState extends State<IncOrDecDialogBottomSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.name!,style: Theme.of(context).textTheme.labelSmall),
+            Text(widget.value,style: Theme.of(context).textTheme.labelSmall),
             SizedBox(
               height: 15,
             ),
-            Text("Recommanded ${widget.name!} is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
+            Text("Recommanded ${widget.value} is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
             SizedBox(
               height: 15,
             ),

@@ -4,16 +4,13 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import '../../models/service_model.dart';
 
 class InformationTabScreen extends StatefulWidget {
-  const  InformationTabScreen({super.key,required this.informationservice,required this.selectedservice});
-  final BluetoothService informationservice;
-  final ServiceModel selectedservice;
+  const  InformationTabScreen({super.key});
 
   @override
   State<InformationTabScreen> createState() => _InformationTabScreenState();
 }
 
 class _InformationTabScreenState extends State<InformationTabScreen> {
-  List<BluetoothCharacteristic> selectedcharacteristics=[];
 
 
 
@@ -21,39 +18,39 @@ class _InformationTabScreenState extends State<InformationTabScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.selectedservice != null ||widget.selectedservice.characteristics.isNotEmpty) {
-      widget.selectedservice.characteristics.forEach((aElement)
-      {
-        BluetoothCharacteristic value = widget.informationservice.characteristics.firstWhere((bElement) => bElement.characteristicUuid.toString().toLowerCase() == aElement.characteristicUuid.toString().toLowerCase());
-        if (value != null)
-        {
-          value.read();
-          selectedcharacteristics.add(value);
-        }
-      });
-    }
-
   }
 
-  Widget _buildTitle(BuildContext context,String characteristicUuid) {
-    CharacteristicModel selectedcharacteristic = widget.selectedservice.characteristics.firstWhere((element) => element.characteristicUuid.toString().toLowerCase() ==characteristicUuid.toString().toLowerCase());
-    return Text(
-        selectedcharacteristic.name,
-        overflow: TextOverflow.ellipsis,style: Theme.of(context).textTheme.displayMedium
-    );
-  }
-  Future<String> ReadDate (BluetoothCharacteristic characteristics) async
-  {
-     List<int> rawdata= await characteristics.read();
-    ///List<int> rawdata = [78, 111, 105, 115, 101, 32, 71, 114, 97, 110, 100, 95, 68, 66, 50, 49, 0];
-    String str = String.fromCharCodes(rawdata);
-    return str;
 
-  }
+  List<Map<String, dynamic>>  DeviceInfo=[
+    {
+      "name":"Advertise Name",
+      "value":"IOTFV"
+    },
+    {
+      "name":"Sku Number",
+      "value":"XYZ1234"
+    },
+    {
+      "name":"Date Of Configured",
+      "value":"Week of 36, 2022"
+    },
+
+    {
+      "name":"MCU Firmware Version",
+      "value":"V 5.2.1"
+    },
+    {
+      "name":"BLE Firmware Version",
+      "value":"V 4.4.1"
+    },
+    {
+      "name":"Date Of Production",
+      "value":"Week 40 2022"
+    },
+  ];
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +61,7 @@ class _InformationTabScreenState extends State<InformationTabScreen> {
           ),
           Expanded(
               child:  ListView.builder(
-                  itemCount: selectedcharacteristics.length,
+                  itemCount: DeviceInfo.length,
                   scrollDirection: Axis.vertical,
                   padding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
                   itemBuilder: (BuildContext context, int index) {
@@ -79,15 +76,8 @@ class _InformationTabScreenState extends State<InformationTabScreen> {
                           )
                       ),
                       child: ListTile(
-                           trailing: FutureBuilder(
-                      future: ReadDate(selectedcharacteristics[index]),
-                     builder: (context, snapshot)  {
-                     if (snapshot.hasData && snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
-                     return Text(snapshot.data!,style: Theme.of(context).textTheme.displayMedium);
-                    }
-                    return Text('No Data',style: Theme.of(context).textTheme.displayMedium);
-                    }),
-                          title: _buildTitle(context,selectedcharacteristics[index].characteristicUuid.toString())
+                          trailing:  Text(DeviceInfo[index]["value"],style: Theme.of(context).textTheme.displayMedium,),
+                          title: Text(DeviceInfo[index]["name"],style: Theme.of(context).textTheme.displayMedium)
                       ),
                     );
                   }))
@@ -95,8 +85,6 @@ class _InformationTabScreenState extends State<InformationTabScreen> {
       ),
     );
   }
-
-
 }
 
 

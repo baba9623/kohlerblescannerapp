@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../../Colors/Hex_Color.dart';
+import '../../services/service_services.dart';
 
 class HoursDialogBottonSheet extends StatefulWidget {
-  String? name;
-  String? value;
-   HoursDialogBottonSheet({super.key,this.name,this.value});
+  BluetoothCharacteristic characteristics;
+  String value;
+   HoursDialogBottonSheet({super.key,required this.characteristics,required this.value});
 
   @override
   State<HoursDialogBottonSheet> createState() => _HoursDialogBottonSheetState();
@@ -13,29 +15,35 @@ class HoursDialogBottonSheet extends StatefulWidget {
 
 class _HoursDialogBottonSheetState extends State<HoursDialogBottonSheet> {
 
-  String selectedhours ="24 Hrs";
+  String selectedhours = "";
   var ListHoursRadioOption =[
-    "04 Hrs",
-    "12 Hrs",
-    "24 Hrs",
-    "36 Hrs",
-    "48 Hrs"
+    "04 hrs",
+    "12 hrs",
+    "24 hrs",
+    "36 hrs",
+    "48 hrs"
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedhours =widget.value;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 500,
       color: HexColor("#272931"),
       child: Padding(
-        padding: const EdgeInsets.only(left: 11,top: 30,right: 11,bottom: 11),
+        padding: const EdgeInsets.only(left: 11,top: 30,right: 11),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.name!,style: Theme.of(context).textTheme.labelSmall),
-            SizedBox(
-              height: 15,
-            ),
-            Text("Recommanded ${widget.name!} mode is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
+            Text(widget.value,style: Theme.of(context).textTheme.labelSmall),
+
+            Text("Recommanded ${widget.value} mode is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
             Transform.scale(
               scale: 1.1,
               child: RadioListTile(
@@ -123,6 +131,13 @@ class _HoursDialogBottonSheetState extends State<HoursDialogBottonSheet> {
                 height: 50,
                 child: ElevatedButton(
                     onPressed: (){
+                    List<int> rowdata =[];
+                     var result = selectedhours.substring(0, 2);
+                    rowdata.add(int.parse(result));
+                    widget.characteristics.write(rowdata);
+                    setState(() {
+
+                    });
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(

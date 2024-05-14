@@ -28,7 +28,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
     _scanResultsSubscription = FlutterBluePlus.scanResults.listen((results) {
       _scanResults = results;
-      print("scan result is $_scanResults");
+
       if (mounted) {
         setState(() {});
       }
@@ -148,6 +148,7 @@ class _ScanScreenState extends State<ScanScreen> {
 
   List<Widget> _buildScanResultTiles(BuildContext context) {
     return _scanResults
+        .where((e) => e.device.platformName.startsWith('K-'))
         .map(
           (r) => ScanResultTile(
         result: r,

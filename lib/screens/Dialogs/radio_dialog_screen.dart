@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../../Colors/Hex_Color.dart';
 
 class RadioDialogBottomSheet extends StatefulWidget {
-  String? name;
-  String? value;
-   RadioDialogBottomSheet({super.key,this.name,this.value});
+  BluetoothCharacteristic characteristics;
+  String value;
+   RadioDialogBottomSheet({super.key, required this.characteristics,required this.value});
 
   @override
   State<RadioDialogBottomSheet> createState() => _RadioDialogBottomSheetState();
 }
 
 class _RadioDialogBottomSheetState extends State<RadioDialogBottomSheet> {
-  String selectedradio ="Enabled";
+  String selectedradio = "";
   var ListRadioOption =[
     "Enabled",
     "Disabled"
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    this.selectedradio =widget.value;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +37,11 @@ class _RadioDialogBottomSheetState extends State<RadioDialogBottomSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.name!,style: Theme.of(context).textTheme.labelSmall),
+            Text(widget.value,style: Theme.of(context).textTheme.labelSmall),
             SizedBox(
               height: 15,
             ),
-            Text("Recommanded ${widget.name!} mode is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
+            Text("Recommanded ${widget.value!} mode is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
             Transform.scale(
               scale: 1.1,
               child: RadioListTile(
@@ -72,7 +81,22 @@ class _RadioDialogBottomSheetState extends State<RadioDialogBottomSheet> {
                 height: 50,
                 child: ElevatedButton(
                     onPressed: (){
+                      List<int> rowdata =[];
+                      if(selectedradio == "Disabled")
+                      {
+                        rowdata=[00];
+                       }
+                      else
+                      {
+                        rowdata=[01];
+                      }
+                      print(rowdata);
+                      widget.characteristics.write(rowdata);
+                      setState(() {
+
+                      });
                       Navigator.pop(context);
+
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,

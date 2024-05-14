@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../../models/service_model.dart';
+import '../../services/service_services.dart';
 
 class MonitorTabScreen extends StatefulWidget {
-  const MonitorTabScreen({super.key,required this.monitorservice,required this.selectedservice});
-  final BluetoothService monitorservice;
-  final ServiceModel selectedservice;
+  const MonitorTabScreen({super.key});
 
 
   @override
@@ -31,6 +30,14 @@ class _MonitorTabScreenState extends State<MonitorTabScreen> {
     }
 
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
 
   @override
   Widget build(BuildContext context) {
