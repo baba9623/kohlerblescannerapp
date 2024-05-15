@@ -92,9 +92,9 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> with SingleTick
 
     });
     getAllServices();
-    onDiscoverServicesPressed();
-    print("_informationServiceCharacteristics services is $_informationServiceCharacteristics");
-    print("_monitorServiceCharacteristics services is $_monitorServiceCharacteristics");
+    Future.delayed(const Duration(seconds: 2), () {
+      onDiscoverServicesPressed();
+    });
 
     setState(() {
 
@@ -153,6 +153,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> with SingleTick
       });
     }
     try {
+
       _services = await widget.device.discoverServices();
       if(_services.isNotEmpty || servicesList != null ||servicesList.services.isNotEmpty)
       {
@@ -521,6 +522,7 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> with SingleTick
                         shrinkWrap: true,
                         padding: EdgeInsets.symmetric(vertical: 20,horizontal: 10),
                         itemBuilder: (BuildContext context, int index) {
+                          var value ="";
                           return Container(
                             padding: EdgeInsets.symmetric(vertical: 11),
                             decoration: BoxDecoration(
@@ -546,18 +548,30 @@ class _DeviceDetailScreenState extends State<DeviceDetailScreen> with SingleTick
                                 Row(
                                   children: [
                                     TextButton(
-                                      onPressed: (){
 
-                                      },
                                       style: TextButton.styleFrom(foregroundColor:Color(0xff039597) ),
+
                                       child: FutureBuilder(
                                           future: ReadData(_advancedServiceCharacteristics[index]),
                                           builder: (context, snapshot)  {
+
                                             if (snapshot.hasData && snapshot.connectionState == ConnectionState.done && snapshot.data != null) {
+                                              value=snapshot.data!;
                                               return Text(snapshot.data!,style: Theme.of(context).textTheme.displayMedium);
                                             }
                                             return Text('No Data',style: Theme.of(context).textTheme.displayMedium);
-                                          }),),
+                                          }),
+                                      onPressed: () { showModalBottomSheet(
+                                          context: context,
+                                          builder: (_) {
+
+                                            return IncOrDecDialogBottomSheet(
+                                              characteristics: _advancedServiceCharacteristics[index],
+                                              value: value,);
+
+                                          }
+                                      ); },
+                                    ),
                                     Icon(Icons.arrow_forward_ios_outlined,color: Colors.white, size: 16,),
 
                                   ],

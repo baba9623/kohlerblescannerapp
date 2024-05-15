@@ -176,11 +176,33 @@ num bytesToInteger(List<int> bytes) {
 
 Uint8List integerToBytes(int value) {
   const arrayLength = 4;
+  Uint8List hexdata = Uint8List(arrayLength)..buffer.asByteData().setInt32(0, value, Endian.little);
+  return hexdata.sublist(0,2);
+}
+
+Uint8List integerTofourBytes(int value) {
+  const arrayLength = 4;
   return Uint8List(arrayLength)..buffer.asByteData().setInt32(0, value, Endian.little);
 }
 
+List<int> integerTotwoBytes(int value) {
+  const arrayLength = 4;
+  Uint8List hexdata;
+  hexdata = Uint8List(arrayLength)..buffer.asByteData().setInt32(0, value, Endian.little);
+  List<int> decarr = hextodecimal(hexdata);
+  return decarr;
+}
 
 
+List<int> hextodecimal(Uint8List hexdata)
+{
+  List<int> arr =[];
+  for(var i in hexdata)
+    {
+      arr.add(i);
+    }
+  return arr;
+}
 
 
 
