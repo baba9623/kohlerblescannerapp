@@ -1,12 +1,17 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:kohlerblescannerapp/Constants/app_constants.dart';
 
 import '../../Colors/Hex_Color.dart';
+import '../../bluetooth_bloc/characteristics_bloc.dart';
 
 class RadioDialogBottomSheet extends StatefulWidget {
   BluetoothCharacteristic characteristics;
   String value;
-   RadioDialogBottomSheet({super.key, required this.characteristics,required this.value});
+  BluetoothDevice device;
+   RadioDialogBottomSheet({super.key, required this.characteristics,required this.value,required this.device});
 
   @override
   State<RadioDialogBottomSheet> createState() => _RadioDialogBottomSheetState();
@@ -26,6 +31,32 @@ class _RadioDialogBottomSheetState extends State<RadioDialogBottomSheet> {
     this.selectedradio =widget.value;
   }
 
+  Widget _buildTitle() {
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.DualFlushCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Dual Flush Mode",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),);
+
+    }
+    else
+    {
+      return Text("Sentinel Flush",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),);
+    }
+
+  }
+  Widget _buildSubTitle() {
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.DualFlushCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Recommended dual flush mode is Enabled",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),);
+
+    }
+    else
+    {
+      return Text("Recommended duty flush status is Enabled",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),);
+    }
+
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,11 +68,11 @@ class _RadioDialogBottomSheetState extends State<RadioDialogBottomSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.value,style: Theme.of(context).textTheme.labelSmall),
+            _buildTitle(),
             SizedBox(
               height: 15,
             ),
-            Text("Recommanded ${widget.value!} mode is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
+            _buildSubTitle(),
             Transform.scale(
               scale: 1.1,
               child: RadioListTile(
@@ -81,20 +112,8 @@ class _RadioDialogBottomSheetState extends State<RadioDialogBottomSheet> {
                 height: 50,
                 child: ElevatedButton(
                     onPressed: (){
-                      List<int> rowdata =[];
-                      if(selectedradio == "Disabled")
-                      {
-                        rowdata=[00];
-                       }
-                      else
-                      {
-                        rowdata=[01];
-                      }
-                      print(rowdata);
-                      widget.characteristics.write(rowdata);
-                      setState(() {
 
-                      });
+                      BlocProvider.of<CharacteristicsBloc>(context).add(WriteCharacteristicsEvent(bluetoothCharacteristic: widget.characteristics, value: selectedradio,device: widget.device));
                       Navigator.pop(context);
 
                     },

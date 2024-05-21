@@ -52,9 +52,9 @@ class _FlutterBlueAppState extends State<FlutterBlueApp> {
                 useMaterial3: true,
                 textTheme: TextTheme(
                   displayLarge: TextStyle(
-                      color: Colors.white,
+                      color: Colors.white54,
                       fontSize: 18,
-                      fontWeight: FontWeight.bold
+                      fontWeight: FontWeight.w400
                   ),
                   displayMedium: TextStyle(
                     color: Colors.white,
@@ -66,9 +66,14 @@ class _FlutterBlueAppState extends State<FlutterBlueApp> {
 
                   labelMedium: TextStyle(
                     color: Colors.white54,
-                    fontSize: 12,
+                    fontSize: 14,
                       fontWeight: FontWeight.w500
 
+                  ),
+                  labelLarge: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500
                   ),
 
 

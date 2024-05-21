@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 import '../../Colors/Hex_Color.dart';
+import '../../bluetooth_bloc/characteristics_bloc.dart';
 import '../../services/service_services.dart';
 
 class HoursDialogBottonSheet extends StatefulWidget {
   BluetoothCharacteristic characteristics;
   String value;
-   HoursDialogBottonSheet({super.key,required this.characteristics,required this.value});
+  BluetoothDevice device;
+
+  HoursDialogBottonSheet({super.key,required this.characteristics,required this.value,required this.device});
 
   @override
   State<HoursDialogBottonSheet> createState() => _HoursDialogBottonSheetState();
@@ -31,19 +35,20 @@ class _HoursDialogBottonSheetState extends State<HoursDialogBottonSheet> {
     selectedhours =widget.value;
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 500,
       color: HexColor("#272931"),
       child: Padding(
-        padding: const EdgeInsets.only(left: 11,top: 30,right: 11),
+        padding: const EdgeInsets.only(left: 11,top: 10,right: 11),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.value,style: Theme.of(context).textTheme.labelSmall),
+            Text("Sentinel Flush Interval",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),),
 
-            Text("Recommanded ${widget.value} mode is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
+           Text("Recommended interval time is 24 Hrs",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),),
             Transform.scale(
               scale: 1.1,
               child: RadioListTile(
@@ -131,14 +136,10 @@ class _HoursDialogBottonSheetState extends State<HoursDialogBottonSheet> {
                 height: 50,
                 child: ElevatedButton(
                     onPressed: (){
-                    List<int> rowdata =[];
                      var result = selectedhours.substring(0, 2);
-                    rowdata.add(int.parse(result));
-                    widget.characteristics.write(rowdata);
-                    setState(() {
 
-                    });
-                      Navigator.pop(context);
+                    BlocProvider.of<CharacteristicsBloc>(context).add(WriteCharacteristicsEvent(bluetoothCharacteristic: widget.characteristics, value: result,device: widget.device));
+                    Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(
                       foregroundColor: Colors.white,

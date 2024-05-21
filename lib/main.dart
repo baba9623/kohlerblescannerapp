@@ -1,13 +1,18 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:kohlerblescannerapp/constants/app_constants.dart';
 import 'package:kohlerblescannerapp/routes/app_routes.dart';
+import 'package:path/path.dart';
+
+import 'bluetooth_bloc/characteristics_bloc.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(BlocProvider(create: (context) => CharacteristicsBloc(),
+  child: MyApp(),));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +32,6 @@ class MyApp extends StatelessWidget {
           textTheme: TextTheme(
             displayLarge: TextStyle(
               color: Colors.white,
-
               fontWeight: FontWeight.bold
             ),
             displayMedium: TextStyle(

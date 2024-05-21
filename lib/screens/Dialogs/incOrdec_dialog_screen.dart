@@ -1,16 +1,20 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:kohlerblescannerapp/Constants/app_constants.dart';
 
 import '../../Colors/Hex_Color.dart';
+import '../../bluetooth_bloc/characteristics_bloc.dart';
 import '../../services/service_services.dart';
 
 class IncOrDecDialogBottomSheet extends StatefulWidget {
   BluetoothCharacteristic characteristics;
   String value;
-   IncOrDecDialogBottomSheet({super.key, required this.characteristics, required this.value});
+  BluetoothDevice device;
+
+  IncOrDecDialogBottomSheet({super.key, required this.characteristics, required this.value, required this.device});
 
   @override
   State<IncOrDecDialogBottomSheet> createState() => _IncOrDecDialogBottomSheetState();
@@ -25,6 +29,74 @@ class _IncOrDecDialogBottomSheetState extends State<IncOrDecDialogBottomSheet> {
     CounterController.text=widget.value!;
   }
 
+
+  Widget _buildTitle() {
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.DualFlushTimeThresholdCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Dual Flush Time Threshold",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),);
+
+    }
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.SensorDistanceCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Sensor Distance",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),);
+
+    }
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.FlushDelayOutTimeCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Flush Delay Out time",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),);
+
+    }
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.SensorIdleTimingCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Sensor Idle Inter-Measurement",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),);
+
+    }
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.SensorLatchTimingCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Sensor Latch Inter-Measurement",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),);
+
+    }
+    else
+    {
+      return Text("Arming Delay In Time",style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),);
+    }
+
+  }
+
+  Widget _buildSubTitle() {
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.DualFlushTimeThresholdCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Recommended dual flush threshold time is 60000 ms ",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),);
+
+    }
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.SensorDistanceCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Recommended sensor distance is 24 inch",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),);
+
+    }
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.FlushDelayOutTimeCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Recommended flush delay out time is 500 ms ",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),);
+
+    }
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.SensorIdleTimingCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Recommended sensor idle timing is 7000 ms",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),);
+
+    }
+    if(widget.characteristics.characteristicUuid.toString().toLowerCase() == AppConstants.SensorLatchTimingCharacteristicsUuid.toString().toLowerCase())
+    {
+      return Text("Recommended sensor latch timing is 2000 ms",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),);
+
+    }
+    else
+    {
+      return Text("Recommended arming delay in time is 2400 ms ",style: TextStyle(color: Colors.white,fontSize: 15,fontWeight: FontWeight.w400),);
+    }
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,11 +107,11 @@ class _IncOrDecDialogBottomSheetState extends State<IncOrDecDialogBottomSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.value,style: Theme.of(context).textTheme.labelSmall),
+            _buildTitle(),
             SizedBox(
               height: 15,
             ),
-            Text("Recommanded ${widget.value} is ${widget.value!}",style: Theme.of(context).textTheme.labelMedium),
+            _buildSubTitle(),
             SizedBox(
               height: 15,
             ),
@@ -226,32 +298,7 @@ class _IncOrDecDialogBottomSheetState extends State<IncOrDecDialogBottomSheet> {
                       List<int> rowdata =[];
                       int index = CounterController.text.indexOf(' ');
                       var result = CounterController.text.substring(0, index);
-
-                      if(widget.characteristics.characteristicUuid.toString().toLowerCase() ==AppConstants.SensorDistanceCharacteristicsUuid.toString().toLowerCase())
-                        {
-                          rowdata.add(int.parse(result));
-                          widget.characteristics.write(rowdata);
-                        }
-                      else
-                        {
-                          int currentValue = int.parse(result);
-                          if(widget.characteristics.characteristicUuid.toString().toLowerCase() ==AppConstants.DualFlushTimeThresholdCharacteristicsUuid.toString().toLowerCase())
-                             {
-                              /// rowdata =[192,212,01,00];
-                               rowdata = integerTofourBytes(currentValue);
-
-                             }
-                          else
-                            {
-                              /// rowdata =[208,7];
-                             rowdata = integerToBytes(currentValue);
-                            }
-                          widget.characteristics.write(rowdata);
-                        }
-
-                      setState(() {
-
-                      });
+                      BlocProvider.of<CharacteristicsBloc>(context).add(WriteCharacteristicsEvent(bluetoothCharacteristic: widget.characteristics, value: result,device: widget.device));
                       Navigator.pop(context);
                     },
                     style: ElevatedButton.styleFrom(

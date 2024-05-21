@@ -97,11 +97,11 @@
         },
         {
           "characteristicUuid":"E7291752-7E6F-4D01-A615-37052E141A23",
-          "name":"Sensor Idle Timing"
+          "name":"Sensor Idle Inter-meas"
         },
         {
           "characteristicUuid":"E7291753-7E6F-4D01-A615-37052E141A23",
-          "name":"Sensor Latch Timing"
+          "name":"Sensor Latch Inter-meas"
         },
         {
           "characteristicUuid":"E7291754-7E6F-4D01-A615-37052E141A23",
